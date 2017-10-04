@@ -1,6 +1,6 @@
 /*------------------------------------------------------------------
 Avalanche Slider
-Version: 1.0.6;
+Version: 1.1.0;
 Author: ThemeMountain
 Copyright: ThemeMountain
 
@@ -50,12 +50,20 @@ Copyright: ThemeMountain
 .tm-slider-container.tms-carousel{
 	overflow: hidden;
 }
-.tm-slider-container.tms-scalable-height{
-	-webkit-transition-property: height;
-	-moz-transition-property: height;
-	-o-transition-property: height;
-	-ms-transition-property: height;
-	transition-property: height;
+.tm-slider-container.tms-carousel > ul{
+	opacity: 0;
+}
+.tm-slider-container.tms-carousel > ul > li{
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+}
+.tm-slider-container.tms-scalable-height,
+.tms-content-scalable{
+	-webkit-transition-property: height, opacity;
+	-moz-transition-property: height, opacity;
+	-o-transition-property: height, opacity;
+	-ms-transition-property: height, opacity;
+	transition-property: height, opacity;
 	-webkit-transition-duration: 600ms;
 	-moz-transition-duration: 600ms;
 	-o-transition-duration: 600ms;
@@ -77,6 +85,9 @@ Copyright: ThemeMountain
 	overflow: hidden;
 	visibility: hidden;
 	position: absolute;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 	left: 0;
 	z-index: 1;
 }
@@ -116,13 +127,18 @@ Copyright: ThemeMountain
 .tms-slide > video{
 	z-index: 1;
 }
-.tms-slide.tms-video-no-ratio > video, 
-.tms-slide.tms-video-no-ratio > iframe,
-.tms-slide.tms-video-no-ratio > object,
-.tms-slide.tms-video-no-ratio > embed{
+.tms-slide.tms-video-no-ratio:not(.tms-forcefit) > video, 
+.tms-slide.tms-video-no-ratio:not(.tms-forcefit) > iframe,
+.tms-slide.tms-video-no-ratio:not(.tms-forcefit) > object,
+.tms-slide.tms-video-no-ratio:not(.tms-forcefit) > embed{
 	width: 100% !important;
 	height: 100% !important;
 	position: static;
+}
+.tms-slide.tms-forcefit > iframe,
+.tms-slide.tms-forcefit > object,
+.tms-slide.tms-forcefit > embed{
+	position: relative;
 }
 .tms-slide img {
 	max-width: 100%;
@@ -143,6 +159,29 @@ Copyright: ThemeMountain
 	max-height: none;
 	float: none;
 	position: absolute;
+}
+[data-video-bkg] img,
+[data-video-bkg-youtube] img,
+[data-video-bkg-vimeo] img,
+[data-video-bkg-youtube] iframe,
+[data-video-bkg-vimeo] iframe,
+.mobile [data-video-bkg-youtube] iframe,
+.mobile [data-video-bkg-vimeo] iframe{
+	opacity: 0 !important;
+}
+[data-video-bkg-youtube],
+[data-video-bkg-vimeo]{
+	background-size: 0;
+}
+.mobile .tms-slide,
+.video-bkg-loaded iframe,
+.tms-slide.error{
+	background-size: cover !important;
+	opacity: 1 !important;
+	-webkit-transition-property: opacity;
+			transition-property: opacity;
+	-webkit-transition-duration: 1000ms;
+			transition-duration: 1000ms;
 }
 
 /*------------------------------------------------------------------
@@ -198,8 +237,10 @@ Copyright: ThemeMountain
 /*------------------------------------------------------------------
 [5. Captions]
 */
-.tms-caption{
+.tms-caption:not([class*="width-"]){
 	width: auto;
+}
+.tms-caption{
 	display: inline-block !important;
 	background-image: url(../images/blank.png);
 	opacity: 0;
@@ -252,6 +293,7 @@ Copyright: ThemeMountain
 }
 .tms-content-scalable{
 	padding-bottom: 3rem;
+	opacity: 0;
 }
 .tms-content-inner .tms-caption{
 	position: static;
